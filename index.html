@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>北京花期地图</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260427g" />
+  </head>
+  <body class="panel-collapsed">
+    <main class="app-shell">
+      <section class="map-workspace" aria-label="北京植物季节分布地图">
+        <header class="topbar">
+          <div class="brand-lockup">
+            <h1>北京花期地图</h1>
+          </div>
+          <div class="topbar-month" aria-live="polite">
+            <span id="topbarMonth">4月</span>
+            <small id="topbarSeason">春季</small>
+          </div>
+          <div class="summary-strip" aria-live="polite">
+            <span><strong id="activeCount">0</strong> 点位</span>
+            <span><strong id="plantCount">0</strong> 植物</span>
+            <span><strong id="districtCount">0</strong> 区域</span>
+            <span class="allergy-pill" id="allergyBadge">-</span>
+          </div>
+        </header>
+
+        <div class="map-stage" id="mapStage">
+          <div id="realMap" class="real-map" role="application" aria-label="北京真实地图"></div>
+          <canvas id="pollenCanvas" class="pollen-canvas" aria-hidden="true"></canvas>
+<nav class="season-timeline" id="seasonTimeline" aria-label="季节时间轴"></nav>
+        </div>
+      </section>
+
+      <div class="panel-control-dock">
+        <div class="wind-badge" id="windBadge">
+          <span id="windArrow">∿</span>
+          <strong id="windBrief">北风 2.8 m/s</strong>
+        </div>
+        <button class="panel-toggle" id="panelToggle" type="button" aria-controls="controlPanel" aria-expanded="false" aria-label="展开控制面板">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 17H5"></path>
+            <path d="M19 7h-9"></path>
+            <circle cx="17" cy="17" r="3"></circle>
+            <circle cx="7" cy="7" r="3"></circle>
+          </svg>
+          <span class="sr-only panel-toggle-text">控制</span>
+        </button>
+      </div>
+
+    <aside class="control-panel" id="controlPanel" aria-label="地图控制面板" aria-hidden="true">
+        <details class="panel-section current-card" open>
+          <summary>时节</summary>
+          <div class="panel-body">
+            <div class="month-heading">
+              <span id="monthLabel">4月</span>
+              <span id="seasonLabel">春季</span>
+            </div>
+            <input id="monthRange" type="range" min="1" max="12" value="4" aria-label="选择月份" />
+            <div class="month-ticks" aria-hidden="true">
+              <span>1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>11</span>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-section" open>
+          <summary>图层</summary>
+          <div class="panel-body">
+            <div class="map-toolbar">
+              <button class="map-tool is-active" id="structureLayerToggle" type="button" aria-pressed="true">骨架</button>
+              <button class="map-tool is-active" id="heatLayerToggle" type="button" aria-pressed="true">热区</button>
+              <button class="map-tool" id="depthToggle" type="button" aria-pressed="false">空间</button>
+              <button class="map-tool is-active" id="windLayerToggle" type="button" aria-pressed="true">风场</button>
+              <button class="map-tool" id="fitActive" type="button">适配当月</button>
+              <button class="map-tool" id="fitAll" type="button">全城</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-section pollen-panel" open>
+          <summary>花粉漂移</summary>
+          <div class="panel-body">
+            <div class="section-title">
+              <h2>花粉漂移</h2>
+              <button class="text-button" id="pollenToggle" type="button">暂停</button>
+            </div>
+            <div class="wind-flow-strip" id="windFlowStrip" aria-hidden="true"></div>
+            <div class="pollen-metrics">
+              <div>
+                <span>风向</span>
+                <strong id="windDirectionLabel">北风</strong>
+              </div>
+              <div>
+                <span>风速</span>
+                <strong id="windSpeedLabel">2.8 m/s</strong>
+              </div>
+              <div>
+                <span>来源点</span>
+                <strong id="pollenSourceLabel">0</strong>
+              </div>
+            </div>
+            <label class="density-control" for="pollenDensity">
+              <span>粒子密度</span>
+              <input id="pollenDensity" type="range" min="18" max="120" value="48" />
+            </label>
+            <div class="allergy-section" id="allergySection">
+              <div class="allergy-header">
+                <span>花粉过敏指数</span>
+                <strong class="allergy-value" id="allergyValue">-</strong>
+              </div>
+              <ul class="allergy-plants" id="allergyPlants"></ul>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-section">
+          <summary>植物筛选</summary>
+          <div class="panel-body">
+            <div class="section-title">
+              <h2>植物筛选</h2>
+              <button class="text-button" id="resetFilters" type="button">全部</button>
+            </div>
+            <div class="plant-filter" id="plantFilter"></div>
+          </div>
+        </details>
+
+        <details class="panel-section">
+          <summary>搜索</summary>
+          <div class="panel-body">
+            <label class="search-label" for="searchInput">搜索地点或植物</label>
+            <div class="search-wrap">
+              <input id="searchInput" class="search-input" type="search" placeholder="例如：圆明园、海棠、朝阳区" />
+              <button class="search-clear" id="searchClear" type="button" aria-label="清空搜索"></button>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-section bloom-calendar-section">
+          <summary>花历</summary>
+          <div class="panel-body">
+            <div class="section-title">
+              <h2>花历</h2>
+              <span class="small-count">月份 × 植物</span>
+            </div>
+            <div class="calendar-scroll" id="calendarScroll">
+              <div class="bloom-calendar" id="bloomCalendar"></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel-section detail-panel" id="detailSection">
+          <summary>点位详情</summary>
+          <div class="panel-body" id="detailPanel">
+            <p class="muted">点击地图上的点位查看详情。</p>
+          </div>
+        </details>
+
+        <details class="panel-section">
+          <summary>当月推荐</summary>
+          <div class="panel-body">
+            <div class="section-title">
+              <h2>当月推荐</h2>
+              <span id="listCount" class="small-count"></span>
+            </div>
+            <div class="spot-list" id="spotList"></div>
+          </div>
+        </details>
+
+        <details class="panel-section source-note">
+          <summary>数据说明</summary>
+          <div class="panel-body">
+            <h2>数据说明</h2>
+            <p>原型种子数据整理自北京市园林绿化局”花开北京”2026年赏花地图与赏花指南。地图使用 OpenFreeMap 底图（© OpenStreetMap 贡献者），瓦片数据遵循 OpenMapTiles 方案。花粉漂移层当前使用月度风场示意模型，后续可接入北京市公共数据开放平台实时风向/风力数据。</p>
+          </div>
+        </details>
+      </aside>
+    </main>
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="./data.js?v=20260428a"></script>
+    <script src="./app.js?v=20260430b"></script>
+  </body>
+</html>
