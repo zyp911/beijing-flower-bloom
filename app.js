@@ -1491,7 +1491,7 @@ function renderDetails(visibleSpots, recommended, focusPlant = null, narrativeSp
     return;
   }
 
-  if (state.selectedId && detailSection && !detailSection.open) {
+  if (state.selectedId && !window.__introActive && detailSection && !detailSection.open) {
     detailSection.open = true;
   }
 
@@ -1760,6 +1760,14 @@ initMap();
 renderPlantControls();
 render();
 
+// Ensure all detail sections start collapsed
+// (browser occasionally persists <details> open state via HTML spec)
+const detailSectionEl = document.getElementById("detailSection");
+if (detailSectionEl && detailSectionEl.open) detailSectionEl.open = false;
+// Also collapse "时节" if it somehow got opened
+const currentCardEl = document.querySelector(".current-card");
+if (currentCardEl && currentCardEl.open) currentCardEl.open = false;
+
 // ─── Entry Intro Animation ───
 let introSkipRequested = false;
 
@@ -1828,6 +1836,7 @@ async function playIntroAnimation() {
   createIntroOverlay();
   document.body.classList.add("is-intro");
   introSkipRequested = false;
+  window.__introActive = true;
 
   const legs = [
     // 1 — 一月：蜡梅 · 颐和园
@@ -2016,6 +2025,7 @@ async function playIntroAnimation() {
       }
     }
   } finally {
+    window.__introActive = false;
     document.body.classList.remove("is-intro");
     const overlay = document.getElementById("introOverlay");
     if (overlay) overlay.remove();
