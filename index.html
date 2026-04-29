@@ -14,19 +14,13 @@
     <main class="app-shell">
       <section class="map-workspace" aria-label="北京植物季节分布地图">
         <header class="topbar">
-          <div class="brand-lockup">
-            <h1>北京花期地图</h1>
-          </div>
-          <div class="topbar-month" aria-live="polite">
+          <h1 class="topbar-brand">北京花期</h1>
+          <span class="topbar-sep" aria-hidden="true"></span>
+          <span class="topbar-meta" aria-live="polite">
             <span id="topbarMonth">4月</span>
-            <small id="topbarSeason">春季</small>
-          </div>
-          <div class="summary-strip" aria-live="polite">
-            <span><strong id="activeCount">0</strong> 点位</span>
-            <span><strong id="plantCount">0</strong> 植物</span>
-            <span><strong id="districtCount">0</strong> 区域</span>
-            <span class="allergy-pill" id="allergyBadge">-</span>
-          </div>
+            <span class="topbar-dot">·</span>
+            <span id="topbarSeason">春季</span>
+          </span>
         </header>
 
         <div class="map-stage" id="mapStage">
@@ -59,6 +53,26 @@
             <div class="month-heading">
               <span id="monthLabel">4月</span>
               <span id="seasonLabel">春季</span>
+            </div>
+            <div class="panel-stats">
+              <span class="stat-item">
+                <strong id="activeCount">0</strong>
+                <small>点位</small>
+              </span>
+              <span class="stat-divider" aria-hidden="true"></span>
+              <span class="stat-item">
+                <strong id="plantCount">0</strong>
+                <small>植物</small>
+              </span>
+              <span class="stat-divider" aria-hidden="true"></span>
+              <span class="stat-item">
+                <strong id="districtCount">0</strong>
+                <small>区域</small>
+              </span>
+              <span class="stat-divider" aria-hidden="true"></span>
+              <span class="stat-item">
+                <span class="allergy-pill" id="allergyBadge">-</span>
+              </span>
             </div>
             <input id="monthRange" type="range" min="1" max="12" value="4" aria-label="选择月份" />
             <div class="month-ticks" aria-hidden="true">
