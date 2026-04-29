@@ -1437,7 +1437,7 @@ body {
 .season-timeline {
   position: absolute;
   left: 50%;
-  bottom: 74px;
+  bottom: 54px;
   z-index: 610;
   display: grid;
   width: min(620px, calc(100vw - 520px));
@@ -2075,7 +2075,7 @@ body.panel-collapsed .control-panel {
   .season-timeline {
     left: 14px;
     right: 14px;
-    bottom: 190px;
+    bottom: 160px;
     width: auto;
     min-width: 0;
     padding: 8px;
@@ -2123,7 +2123,7 @@ body.panel-collapsed .control-panel {
   .season-timeline {
     left: 10px;
     right: 10px;
-    bottom: 168px;
+    bottom: 140px;
     gap: 2px;
     padding: 7px;
     overflow-x: auto;
@@ -2163,8 +2163,9 @@ body.panel-collapsed .control-panel {
   z-index: 500;
   pointer-events: none;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  padding-bottom: 22%;
 }
 
 .intro-backdrop {
