@@ -1814,10 +1814,16 @@ function sleep(ms) {
 async function playIntroAnimation() {
   if (!map) return;
 
-  // Ensure 3D depth is on for dramatic effect
-  if (!depthEnabled) setDepthEnabled(true);
-  // Close panel for full-screen view
+  // Ensure 3D depth is on without triggering a conflicting flyTo
+  if (!depthEnabled) {
+    depthEnabled = true;
+    mapStage.classList.add("is-depth");
+    depthToggle.classList.add("is-active");
+    depthToggle.setAttribute("aria-pressed", "true");
+  }
+  // Close panel and let map resize before starting
   if (panelVisible) setPanelVisible(false);
+  await sleep(320);
 
   createIntroOverlay();
   document.body.classList.add("is-intro");
