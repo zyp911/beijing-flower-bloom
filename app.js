@@ -1839,31 +1839,7 @@ async function playIntroAnimation() {
   window.__introActive = true;
 
   const legs = [
-    // 1 — 一月：蜡梅 · 颐和园
-    {
-      center: [116.275, 40.0],
-      zoom: 13,
-      pitch: 20,
-      bearing: 30,
-      month: 1,
-      spotId: "yihe-wintersweet",
-      label: "蜡梅 · 颐和园 · 一月",
-      duration: 2800,
-      pause: 600,
-    },
-    // 2 — 二月：迎春 · 中山公园
-    {
-      center: [116.390, 39.909],
-      zoom: 14,
-      pitch: 25,
-      bearing: 180,
-      month: 2,
-      spotId: "zhongshan-jasmine",
-      label: "迎春 · 中山公园 · 二月",
-      duration: 2400,
-      pause: 600,
-    },
-    // 3 — 三月：樱花 · 玉渊潭
+    // 1 — 三月：樱花 · 玉渊潭
     {
       center: [116.307, 39.918],
       zoom: 14,
@@ -1872,10 +1848,10 @@ async function playIntroAnimation() {
       month: 3,
       spotId: "yuyuantan-sakura",
       label: "樱花 · 玉渊潭 · 三月",
-      duration: 2400,
-      pause: 600,
+      duration: 2500,
+      pause: 500,
     },
-    // 4 — 四月：海棠 · 元大都遗址公园
+    // 2 — 四月：海棠 · 元大都遗址公园
     {
       center: [116.414, 39.976],
       zoom: 13,
@@ -1884,10 +1860,10 @@ async function playIntroAnimation() {
       month: 4,
       spotId: "yuandadu-crabapple",
       label: "海棠 · 元大都 · 四月",
-      duration: 2600,
-      pause: 600,
+      duration: 2500,
+      pause: 500,
     },
-    // 5 — 五月：牡丹 · 景山公园
+    // 3 — 五月：牡丹 · 景山公园
     {
       center: [116.397, 39.923],
       zoom: 14,
@@ -1896,10 +1872,10 @@ async function playIntroAnimation() {
       month: 5,
       spotId: "jingshan-peony",
       label: "牡丹 · 景山 · 五月",
-      duration: 2800,
-      pause: 800,
+      duration: 2500,
+      pause: 500,
     },
-    // 6 — 六月：荷花 · 紫竹院公园
+    // 4 — 六月：荷花 · 紫竹院公园
     {
       center: [116.310, 39.944],
       zoom: 14,
@@ -1908,46 +1884,10 @@ async function playIntroAnimation() {
       month: 6,
       spotId: "zizhuyuan-lotus",
       label: "荷花 · 紫竹院 · 六月",
-      duration: 2200,
-      pause: 600,
+      duration: 2000,
+      pause: 400,
     },
-    // 7 — 七月：月季 · 大望京公园
-    {
-      center: [116.486, 40.003],
-      zoom: 14,
-      pitch: 35,
-      bearing: 135,
-      month: 7,
-      spotId: "dawangjing-rose",
-      label: "月季 · 大望京 · 七月",
-      duration: 2600,
-      pause: 600,
-    },
-    // 8 — 八月：向日葵 · 奥林匹克森林公园
-    {
-      center: [116.396, 40.020],
-      zoom: 14,
-      pitch: 45,
-      bearing: 135,
-      month: 8,
-      spotId: "aosen-sunflower",
-      label: "向日葵 · 奥森 · 八月",
-      duration: 2400,
-      pause: 600,
-    },
-    // 9 — 九月：菊花 · 北海公园
-    {
-      center: [116.388, 39.924],
-      zoom: 13.5,
-      pitch: 25,
-      bearing: 45,
-      month: 9,
-      spotId: "beihai-chrysanthemum",
-      label: "菊花 · 北海 · 九月",
-      duration: 2400,
-      pause: 600,
-    },
-    // 10 — 十月：银杏 · 香山公园
+    // 5 — 十月：银杏 · 香山公园
     {
       center: [116.182, 39.989],
       zoom: 13,
@@ -1956,34 +1896,10 @@ async function playIntroAnimation() {
       month: 10,
       spotId: "xiangshan-ginkgo",
       label: "银杏 · 香山 · 十月",
-      duration: 2800,
-      pause: 800,
+      duration: 2500,
+      pause: 500,
     },
-    // 11 — 十一月：粉黛乱子草 · 官庄公园
-    {
-      center: [116.588, 39.913],
-      zoom: 13,
-      pitch: 20,
-      bearing: 0,
-      month: 11,
-      spotId: "guanzhuang-muhly",
-      label: "粉黛乱子草 · 官庄 · 十一月",
-      duration: 2600,
-      pause: 600,
-    },
-    // 12 — 十二月：蜡梅 · 颐和园（与一月首尾呼应）
-    {
-      center: [116.275, 40.0],
-      zoom: 13,
-      pitch: 20,
-      bearing: 30,
-      month: 12,
-      spotId: "yihe-wintersweet",
-      label: "蜡梅 · 颐和园 · 十二月",
-      duration: 2600,
-      pause: 600,
-    },
-    // 13 — 返回全景
+    // 6 — 返回全景
     {
       center: [116.42, 39.93],
       zoom: 11.2,
@@ -1992,7 +1908,7 @@ async function playIntroAnimation() {
       month: 4,
       spotId: null,
       label: "",
-      duration: 3000,
+      duration: 2000,
       pause: 0,
     },
   ];
